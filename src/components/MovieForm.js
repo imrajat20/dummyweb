@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from './MovieForm.module.css';
 
-const MovieForm = () => {
+const MovieForm = (props) => {
 
     const [title, setTitle] = useState('');
     const [openingText, setOpeningText] = useState('');
@@ -10,13 +10,13 @@ const MovieForm = () => {
     const formHandler = (event) => {
         event.preventDefault();
 
-        const movieForm = {
+        const movie = {
             title: title,
             openingText: openingText,
             releaseDate:date
         };
 
-        console.log(movieForm);
+        props.onAddMovie(movie);
 
         setDate('');
         setOpeningText('');
