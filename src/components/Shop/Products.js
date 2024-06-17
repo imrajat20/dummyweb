@@ -3,7 +3,7 @@ import classes from './Products.module.css';
 
 const dummy_items = [
   {id: 'p1', title: 'The book', price: 6, description: 'This is a first product'},
-  {id: 'p2', title: 'New book', price: 10, description: 'This is a second product'}
+  {id: 'h2', title: 'New book', price: 10, description: 'This is a second product'}
 ]
 
 const Products = (props) => {
@@ -14,6 +14,7 @@ const Products = (props) => {
        {dummy_items.map((product) => (
          <ProductItem
          key={product.id}
+         id={product.id}
          title={product.title}
          price={product.price}
          description={product.description}

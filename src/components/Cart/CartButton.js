@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import classes from './CartButton.module.css';
-import cartSlice from '../../store/cartSlice';
+
+import uiSlice from '../../store/uiSlice';
 
 const CartButton = (props) => {
 
   const dispatch = useDispatch();
   const cartHandler = () => {
-    dispatch(cartSlice.actions.toggleCart());
+    dispatch(uiSlice.actions.toggleCart());
   };
   const numberOfItmes = useSelector(state => state.cart.totalQuantity);
   
