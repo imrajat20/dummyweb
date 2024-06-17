@@ -6,13 +6,19 @@ import { useEffect} from 'react';
 import uiSlice from './store/uiSlice';
 import React from 'react';
 import Notification from './components/UI/Notifications';
+import { fetchCartData } from './store/cartSlice';
 
 function App() {
+  const isInitial = true;
 
   const cartShown = useSelector(state => state.ui.showCart);
   const cart = useSelector(state => state.cart);
   const notification = useSelector(state => state.ui.notification)
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCartData)
+  },[dispatch])
 
   useEffect(() => {
     const sendCartData = async() => {
@@ -40,6 +46,11 @@ function App() {
         message: 'Sent cart data successfully!'
       }))
     };
+
+    if(isInitial){
+      isInitial = false;
+      return;
+    }
     sendCartData().catch(
       error => {
         dispatch(uiSlice.actions.setNotification({

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { uiAction } from "./uiSlice";
 
 const initialState = {counter:0, items: [], totalQuantity: 0}
 
@@ -6,6 +7,10 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
+        replaceCart (state, action){
+            state.totalQuantity = action.payload.totalQuantity;
+            state.items = action.payload.items;
+        },
         addItem(state, action){
             const newItem = action.payload;
             const existing = state.items.find(item => item.id === newItem.id);
@@ -36,6 +41,33 @@ const cartSlice = createSlice({
     }
 
 });
+
+export const fetchCartData = () => {
+    return async (dispatch) => {
+        const fetchData = async() => {
+            const response = await fetch('https://ecommerce-web-c8b78-default-rtdb.firebaseio.com/cart.json');
+
+            if(!response.ok){
+                throw new Error('Failed to fetch data');
+            }
+
+            const data = await response.json();
+            return data;
+        };
+
+        try{
+           const cartData = fetchData();
+           dispatch(cartAction.replaceCart(cartData));
+        } catch(error){
+
+            dispatch(uiAction.setNotification({
+                status: 'error',
+                title: 'Error!',
+                message: 'failed to get data'
+            }))
+        }
+    };
+};
 
 export const cartAction = cartSlice.actions;
 export default cartSlice;
